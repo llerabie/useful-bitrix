@@ -1,8 +1,7 @@
-# Полезности по битриксу
+ # Вывод HIGHLOAD блока, привязанному к разделу 
 /**
  * @var array $problems
  */
- # Вывод HIGHLOAD блока, привязанному к разделу 
 if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 	$db_list = CIBlockSection::GetList(
 		array("ID" => "ASC"),

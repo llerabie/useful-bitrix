@@ -26,3 +26,4 @@ if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 		}
 	}
 }
+#ghgvg

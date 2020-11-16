@@ -1,8 +1,8 @@
-# Вывод HIGHLOAD блока, привязанному к разделу 
-
+# Полезности по битриксу
 /**
  * @var array $problems
  */
+ # Вывод HIGHLOAD блока, привязанному к разделу 
 if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 	$db_list = CIBlockSection::GetList(
 		array("ID" => "ASC"),
@@ -26,4 +26,4 @@ if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 		}
 	}
 }
-#ghgvg
+

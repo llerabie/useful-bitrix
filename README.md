@@ -25,4 +25,33 @@ if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 		}
 	}
 }
+ # Пример вывода элемента из инфоблока 
+ 
+CModule::IncludeModule('iblock');
+$db_list = CIBlockElement::GetList(
+	array("SORT" => "ASC"),
+	array("IBLOCK_ID" => "2"),
+	false,
+	array(),
+	array("ID", "IBLOCK_ID", "NAME", "PREVIEW_TEXT", "PROPERTY_*")
+);
+if ($db_el = $db_list->GetNextElement()) {
+	$guide = $db_el->GetFields();
+	$guide_props = $db_el->GetProperties();
+}
 
+ # Сжатие картинки (фото)
+ 
+ foreach ($guide_props["GUIDE_LICENSE"]["VALUE"] as $photo) {
+	$preview = CFile::ResizeImageGet(
+		$photo,
+		["width" => 400, "height" => 400],
+		BX_RESIZE_IMAGE_PROPORTIONAL
+	);
+	$original = CFile::GetFileArray($photo);
+	$photos[] = [
+		"PREVIEW" => $preview["src"],
+		"ORIGINAL" => $original["SRC"]
+	];
+}
+ 

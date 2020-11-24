@@ -1,7 +1,5 @@
- # Вывод HIGHLOAD блока, привязанному к разделу 
-/**
- * @var array $problems
- */
+ ## Вывод HIGHLOAD блока, привязанному к разделу 
+ ```php
 if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 	$db_list = CIBlockSection::GetList(
 		array("ID" => "ASC"),
@@ -25,8 +23,9 @@ if (Loader::includeModule('iblock') && Loader::includeModule('highloadblock')) {
 		}
 	}
 }
- # Пример вывода элемента из инфоблока 
- 
+```
+ ## Пример вывода элемента из инфоблока 
+  ```php
 CModule::IncludeModule('iblock');
 $db_list = CIBlockElement::GetList(
 	array("SORT" => "ASC"),
@@ -39,9 +38,9 @@ if ($db_el = $db_list->GetNextElement()) {
 	$guide = $db_el->GetFields();
 	$guide_props = $db_el->GetProperties();
 }
-
- # Сжатие картинки (фото)
- 
+```
+ ## Сжатие картинки (фото)
+ ```php
  foreach ($guide_props["GUIDE_LICENSE"]["VALUE"] as $photo) {
 	$preview = CFile::ResizeImageGet(
 		$photo,
@@ -54,4 +53,4 @@ if ($db_el = $db_list->GetNextElement()) {
 		"ORIGINAL" => $original["SRC"]
 	];
 }
- 
+ ```

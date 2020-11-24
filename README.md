@@ -54,3 +54,53 @@ if ($db_el = $db_list->GetNextElement()) {
 	];
 }
  ```
+  ## Ajax-запрос кнопки "Загрузить ещё"
+  * Script.js
+  ```php
+  $(document).ready(function () {
+	$(document).on(`click`, `a[data-url]`, () => {
+		const targetContainer = $(document).find(`.reviews`);
+		const url = $('a[data-url]').attr(`data-url`);
+
+		if (url !== undefined) {
+			$.ajax({
+				type: `GET`,
+				url: url,
+				dataType: `html`,
+				success: function (data) {
+					$(`a[data-url]`).remove();
+
+					const elements = $(data).find(`.reviews`).children();
+					const pagination = $(data).find(`.col-xl-8.mx-auto.text-center.reveiws-btn`);
+					targetContainer.append(elements.hide());
+					targetContainer.children().fadeIn(700);
+					targetContainer.parent().append(pagination);
+				}
+			});
+		}
+	});
+
+});
+ ```
+ * Template.php 
+  ```php
+  <?
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
+/** @var array $arResult */
+
+$this->createFrame()->begin("Загрузка навигации");
+
+if ($arResult["NavPageCount"] > 1):
+	if ($arResult["NavPageNomer"] + 1 <= $arResult["nEndPage"]):
+		$plus = $arResult["NavPageNomer"] + 1;
+		$url = $arResult["sUrlPathParams"] . "PAGEN_" . $arResult["NavNum"] . "=" . $plus; ?>
+		<div class="col-xl-8 mx-auto text-center reveiws-btn">
+			<a href="javascript:void(0);" class="btn btn-primary" data-url="<?= $url ?>">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/more.png" alt="more">
+				Загрузить еще 4
+			</a>
+		</div>
+	<?endif;
+endif; ?>
+ ```

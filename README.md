@@ -39,6 +39,20 @@ if ($db_el = $db_list->GetNextElement()) {
 	$guide_props = $db_el->GetProperties();
 }
 ```
+ ## Пример вывода секции из инфоблока 
+  ```php
+// Marafon
+$marafon_db_list = CIBlockSection::GetList(
+	array(),
+	array("ID" => $arParams["MARAFON_SECTION_ID"], "IBLOCK_ID" => $arParams["MARAFON_IBLOCK_ID"]),
+	false,
+	array("ID", "IBLOCK_ID", "UF_START", "UF_SALE_INFO")
+);
+if ($marafon_db_el = $marafon_db_list->GetNext()) {
+	$arResult["MARAFON_CARD"] = $marafon_db_el;
+}
+
+```
  ## Сжатие картинки (фото)
  ```php
  foreach ($guide_props["GUIDE_LICENSE"]["VALUE"] as $photo) {

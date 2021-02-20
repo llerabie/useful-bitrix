@@ -118,3 +118,93 @@ if ($arResult["NavPageCount"] > 1):
 	<?endif;
 endif; ?>
  ```
+ ## Пример форм с валидацией обяз.поля
+  ```php
+<div class="block-form__inner" id="form_<?= $arParams["TOKEN"] ?>">
+	<div class="block-form__row">
+		<div class="block-form__cell">
+			<label for="fio"><span>*</span>ФИО</label>
+			<input type="text" id="fio_<?= $arParams['TOKEN'] ?>" required>
+			<span style="display:none; font-size:12px; color: red;">Это обязательное поле</span>
+		</div>
+		<div class="block-form__cell">
+			<label for="region"><span>*</span>Регион</label>
+			<input type="text" id="region_<?= $arParams['TOKEN'] ?>" required>
+			<span style="display:none; font-size:12px; color: red;">Это обязательное поле</span>
+		</div>
+	</div>
+	<div class="block-form__row">
+		<div class="block-form__cell">
+			<div class="block-form__cell">
+				<label for="tel"><span>*</span>Телефон</label>
+				<input type="text" id="tel_<?= $arParams['TOKEN'] ?>" required>
+				<span style="display:none; font-size:12px; color: red;">Это обязательное поле</span>
+			</div>
+			<div class="block-form__cell">
+				<label for="mail"><span>*</span>Email</label>
+				<input type="text" id="mail_<?= $arParams['TOKEN'] ?>" required>
+				<span style="display:none; font-size:12px; color: red;">Это обязательное поле</span>
+			</div>
+		</div>
+		<div class="block-form__cell">
+			<label for="tx">Название вашей компании</label>
+			<textarea id="tx_<?= $arParams['TOKEN'] ?>"></textarea>
+		</div>
+	</div>
+	<div class="block-form__row">
+		<div class="block-form__cell block-form__cell-check">
+			<input type="checkbox" id="check-ex" checked>
+			<label for="check-ex">Нажимая кнопку, я даю согласие на обработку своих персональных данных в
+				соответствии с <a href="<?= SITE_DIR ?>privacy/">Политикой конфиденциальности</a></label>
+		</div>
+		<div class="block-form__cell block-form__cell-btn">
+			<button type="button" class="block-form__link" id="submit_<?= $arParams['TOKEN'] ?>">отправить заявку
+			</button>
+		</div>
+	</div>
+</div>
+
+<script type="application/javascript">
+	"use strict";
+	$(() => {
+		$("#submit_<?=$arParams['TOKEN']?>").click(e => {
+			e.preventDefault();
+			let status = true;
+			$("#form_<?=$arParams['TOKEN']?>").find("*[required]").each((index, el) => {
+				if (($(el).val() == $("#mail_<?=$arParams['TOKEN']?>").val()) || $(el).val() === "" || ($(el).is(":not(:checked)") && $(el).is(":checkbox"))) {
+					status = false;$(el).parent().find("span").show();
+					$(el).parent().find("input").css('border', '1px solid red');
+				}
+				else {
+					$(el).parent().find("span").hide();
+					$(el).parent().find("input").css('border', 'unset');
+				}
+			});
+
+			if (status) {
+				let data = new FormData;
+				data.append("TOKEN", "<?=$arParams['TOKEN']?>");
+				data.append("EMAIL", $("#mail_<?=$arParams['TOKEN']?>").val());
+				data.append("PHONE", $("#tel_<?=$arParams['TOKEN']?>").val());
+				data.append("FIO", $("#fio_<?=$arParams['TOKEN']?>").val());
+				data.append("REGION", $("#region_<?=$arParams['TOKEN']?>").val());
+				data.append("COMPANY_NAME", $("#tx_<?=$arParams['TOKEN']?>").val());
+				data.append("DETAIL_URL", "<?=$APPLICATION->GetCurDir()?>");
+				$.ajax({
+					method: "post",
+					url: "<?=$APPLICATION->GetCurDir()?>",
+					data: data,
+					contentType: false,
+					processData: false,
+					success: (data) => {
+						data = JSON.parse(data);
+						if (data.status == true) {
+							location.reload();
+						}
+					}
+				});
+			}
+		});
+	});
+</script>
+```

@@ -208,3 +208,20 @@ endif; ?>
 	});
 </script>
 ```
+ ## Вывод СЕО инфы
+  ```php
+$SECTION_ID = $arResult["SECTION"]["ID"];
+$IBLOCK_ID = $arResult["SECTION"]["IBLOCK_ID"];
+
+$ipropSectionValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($IBLOCK_ID, $SECTION_ID);
+$arSEO = $ipropSectionValues->getValues();
+if ($arSEO['SECTION_META_TITLE'] != false) {
+	$APPLICATION->SetPageProperty("title", $arSEO['SECTION_META_TITLE']);
+}
+if ($arSEO['SECTION_META_KEYWORDS'] != false) {
+	$APPLICATION->SetPageProperty("keywords", $arSEO['SECTION_META_KEYWORDS']);
+}
+if ($arSEO['SECTION_META_DESCRIPTION'] != false) {
+	$APPLICATION->SetPageProperty("description", $arSEO['SECTION_META_DESCRIPTION']);
+}
+```

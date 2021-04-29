@@ -225,9 +225,14 @@ if ($arSEO['SECTION_META_DESCRIPTION'] != false) {
 	$APPLICATION->SetPageProperty("description", $arSEO['SECTION_META_DESCRIPTION']);
 }
 ```
- ## Http tp https
+ ## Http to https
   ```php
 RewriteEngine On
 RewriteCond %{SERVER_PORT} !^443$
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+```
+ ## Падежи
+  ```php
+use  Bitrix\Main\Grid\Declension;
+(new Declension('заказ', 'заказа', 'заказов'))->get($countOrder)
 ```
